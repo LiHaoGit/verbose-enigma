@@ -64,3 +64,11 @@ console.log(JSON.stringify(element,null,2))
   }
 }
  */
+
+const container = document.getElementById("app")
+
+const preElement = document.createElement("pre")
+preElement.textContent = JSON.stringify(element,null,2)
+preElement.style.fontFamily="Consolas"
+
+container.appendChild(preElement)
