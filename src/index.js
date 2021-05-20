@@ -22,7 +22,7 @@ function createElement(type, props, ...children) {
 /**@jsx createElement */
 const element = (
   <div>
-    <h1>Hello World</h1>
+    <h1 title="haha" >Hello World</h1>
     <h2>from Didact</h2>
   </div>
 );
