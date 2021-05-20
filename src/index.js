@@ -19,56 +19,40 @@ function createElement(type, props, ...children) {
     },
   };
 }
+
+
+/**
+ * 根据 createElement 的返回值创建 HTML
+ * @param {{ type: string; props: { children:Array,[key:string]:any } }} element
+ * @param {HTMLElement | Text} container
+ */
+function render(element,container){
+
+  const dom =  element.type === "TEXT_ELEMENT" ?  document.createTextNode("") : document.createElement(element.type)
+
+  
+  Object.keys(element.props)
+  .filter(key=>key!=="children")
+  .forEach(key=>{
+    dom[key] = element.props[key]
+  })
+
+  element.props.children.forEach(child=>{
+    render(child,dom)
+  })
+
+  container.appendChild(dom)
+}
+
 /**@jsx createElement */
 const element = (
   <div>
-    <h1 title="haha" >Hello World</h1>
-    <h2>from Didact</h2>
+    <h1 title="haha" >你好</h1>
+    <h2>我是自定义的 React</h2>
   </div>
 );
-console.log(JSON.stringify(element,null,2))
-/**
-{
-  "type": "div",
-  "props": {
-    "children": [
-      {
-        "type": "h1",
-        "props": {
-          "children": [
-            {
-              "type": "TEXT_ELEMENT",
-              "props": {
-                "nodeValue": "Hello World",
-                "children": []
-              }
-            }
-          ]
-        }
-      },
-      {
-        "type": "h2",
-        "props": {
-          "children": [
-            {
-              "type": "TEXT_ELEMENT",
-              "props": {
-                "nodeValue": "from Didact",
-                "children": []
-              }
-            }
-          ]
-        }
-      }
-    ]
-  }
-}
- */
+
 
 const container = document.getElementById("app")
 
-const preElement = document.createElement("pre")
-preElement.textContent = JSON.stringify(element,null,2)
-preElement.style.fontFamily="Consolas"
-
-container.appendChild(preElement)
+render(element,container)
